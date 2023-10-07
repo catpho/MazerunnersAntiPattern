@@ -26,7 +26,7 @@ public class MazeRunnersController implements Initializable {
     @FXML private GridPane mazeGrid;
     @FXML private Button mazeFileChooser;
     @FXML private Button solveMaze;
-    private FileChooser fileChooser = new FileChooser();
+    private FileChooser fileChooser;
     private FileChooser.ExtensionFilter extensionFilter;
     private File file;
     private Alert messagePopupBox;
@@ -41,6 +41,7 @@ public class MazeRunnersController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //initializing
+        fileChooser = new FileChooser();
         extensionFilter = new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(extensionFilter);
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Downloads"));
@@ -48,7 +49,6 @@ public class MazeRunnersController implements Initializable {
         mazeSolver = new MazeSolver();
         messagePopupBox = new Alert(Alert.AlertType.INFORMATION);
         errorPopupBox = new Alert(Alert.AlertType.ERROR);
-        mazeGrid.setStyle("-fx-background-color: inherit");
         solutionStack = new CharStack();
         multiplePaths = new CharStack();
 
@@ -59,13 +59,17 @@ public class MazeRunnersController implements Initializable {
         Rectangle rect;
         StackPane stackPane;
 
+        // Builds GridPane with Squares represented by the character
         for (int i = 0; i < maze.getMazeHeight(); i++) {
             for(int j = 0; j < maze.getMazeWidth(); j++) {
+
                 rect = new Rectangle(40, 40);
                 rect.setStroke(Color.BLACK);
                 rect.setStrokeWidth(0.5);
                 Text text = new Text("");
                 text.setStyle("-fx-font-size: 18px;");
+
+                // Setting start box features
                 if(j == maze.getStartCoordY() && i == maze.getStartCoordX()) {
 
                     rect.setFill(Color.ORANGE);
@@ -73,9 +77,10 @@ public class MazeRunnersController implements Initializable {
                     text.setText("S");
                     stackPane.getChildren().addAll(rect, text);
 
-
                     mazeGrid.add(stackPane, j, i);
-                } else if (j == maze.getEndCoordY() && i == maze.getEndCoordX()) {
+                }
+                // Setting end box features
+                else if (j == maze.getEndCoordY() && i == maze.getEndCoordX()) {
 
                     rect.setFill(Color.LIGHTGREEN);
                     stackPane = new StackPane();
@@ -84,6 +89,7 @@ public class MazeRunnersController implements Initializable {
 
                     mazeGrid.add(stackPane, j, i);
                 }
+                // Setting remaining box features
                 else {
 
                     stackPane = new StackPane();
@@ -115,62 +121,73 @@ public class MazeRunnersController implements Initializable {
             try {
                 maze = mazeUtil.importMaze(file);
 
-            grid = maze.getMazeGrid();
-            StackPane stackPane;
-            Rectangle rect;
+                grid = maze.getMazeGrid();
+                StackPane stackPane;
+                Rectangle rect;
 
-            for (int i = 0; i < maze.getMazeHeight(); i++) {
-                for(int j = 0; j < maze.getMazeWidth(); j++) {
-                    rect = new Rectangle(40, 40);
-                    rect.setStroke(Color.BLACK);
-                    rect.setStrokeWidth(0.5);
-                    Text text = new Text("");
-                    text.setStyle("-fx-font-size: 18px;");
+                // Builds GridPane with Squares represented by the character
+                for (int i = 0; i < maze.getMazeHeight(); i++) {
+                    for(int j = 0; j < maze.getMazeWidth(); j++) {
+                        rect = new Rectangle(40, 40);
+                        rect.setStroke(Color.BLACK);
+                        rect.setStrokeWidth(0.5);
+                        Text text = new Text("");
+                        text.setStyle("-fx-font-size: 18px;");
 
-                    if(j == maze.getStartCoordY() && i == maze.getStartCoordX()) {
+                        // Setting start box features
+                        if(j == maze.getStartCoordY() && i == maze.getStartCoordX()) {
 
-                        rect.setFill(Color.ORANGE);
-                        stackPane = new StackPane();
-                        text.setText("S");
-                        stackPane.getChildren().addAll(rect, text);
+                            rect.setFill(Color.ORANGE);
+                            stackPane = new StackPane();
+                            text.setText("S");
+                            stackPane.getChildren().addAll(rect, text);
 
-                        mazeGrid.add(stackPane, j, i);
-                    } else if (j == maze.getEndCoordY() && i == maze.getEndCoordX()) {
-
-                        rect.setFill(Color.LIGHTGREEN);
-                        stackPane = new StackPane();
-                        text.setText("F");
-                        stackPane.getChildren().addAll(rect, text);
-
-                        mazeGrid.add(stackPane, j, i);
-                    }
-                    else {
-
-                        if(grid[i][j] == '1') {
-                            rect.setFill(Color.WHITE);
-                        } else if (grid[i][j] == '0') {
-                            rect.setFill(Color.DARKGREY);
-                            text.setText("*");
+                            mazeGrid.add(stackPane, j, i);
                         }
-                        stackPane = new StackPane();
-                        stackPane.getChildren().addAll(rect, text);
+                        // Setting end box features
+                        else if (j == maze.getEndCoordY() && i == maze.getEndCoordX()) {
 
-                        mazeGrid.add(stackPane, j, i);
+                            rect.setFill(Color.LIGHTGREEN);
+                            stackPane = new StackPane();
+                            text.setText("F");
+                            stackPane.getChildren().addAll(rect, text);
+
+                            mazeGrid.add(stackPane, j, i);
+                        }
+                        // Setting remaining box features
+                        else {
+
+                            if(grid[i][j] == '1') {
+                                rect.setFill(Color.WHITE);
+                            } else if (grid[i][j] == '0') {
+                                rect.setFill(Color.DARKGREY);
+                                text.setText("*");
+                            }
+                            stackPane = new StackPane();
+                            stackPane.getChildren().addAll(rect, text);
+
+                            mazeGrid.add(stackPane, j, i);
+                        }
                     }
                 }
-            }
 
-            messagePopupBox.setTitle("Maze Importer");
-            messagePopupBox.setContentText(file.getName() + " imported successfully!");
-            messagePopupBox.showAndWait();
+                // Popup Box
+                messagePopupBox.setTitle("Maze Importer");
+                messagePopupBox.setContentText(file.getName() + " imported successfully!");
+                messagePopupBox.showAndWait();
+
             } catch (Exception e) {
+
+                // Popup Box
                 errorPopupBox.setTitle("File Selection Error");
                 errorPopupBox.setContentText("Error.  The file you selected is not in the correct format.");
                 errorPopupBox.showAndWait();
+
             }
 
         } else {
 
+            // Popup Box
             messagePopupBox.setTitle("Maze Importer");
             messagePopupBox.setContentText("Import operation canceled.");
             messagePopupBox.showAndWait();
@@ -195,6 +212,7 @@ public class MazeRunnersController implements Initializable {
         StackPane stackPane;
         Rectangle rect;
 
+        // Builds GridPane with Squares represented by the character
         for (int i = 0; i < maze.getMazeHeight(); i++) {
             for(int j = 0; j < maze.getMazeWidth(); j++) {
 
@@ -204,6 +222,7 @@ public class MazeRunnersController implements Initializable {
                 Text text = new Text("");
                 text.setStyle("-fx-font-size: 18px;");
 
+                // Setting start box features
                 if(j == maze.getStartCoordY() && i == maze.getStartCoordX()) {
 
                     rect.setFill(Color.ORANGE);
@@ -213,7 +232,9 @@ public class MazeRunnersController implements Initializable {
                     stackPane.getChildren().addAll(rect, text);
 
                     mazeGrid.add(stackPane, j, i);
-                } else if (j == maze.getEndCoordY() && i == maze.getEndCoordX()) {
+                }
+                // Setting end box features
+                else if (j == maze.getEndCoordY() && i == maze.getEndCoordX()) {
                     rect.setFill(Color.LIGHTGREEN);
 
                     stackPane = new StackPane();
@@ -222,6 +243,7 @@ public class MazeRunnersController implements Initializable {
 
                     mazeGrid.add(stackPane, j, i);
                 }
+                // Setting remaining box features
                 else {
 
                     stackPane = new StackPane();
