@@ -35,6 +35,8 @@ public class MazeUtil {
             e.printStackTrace();
         } catch (NumberFormatException e) {
             System.out.println("Invalid number format in maze file");
+        } catch (Exception e) {
+            System.out.println("Error in reading file.");
         }
         return null;
     }

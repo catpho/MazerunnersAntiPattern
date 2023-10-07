@@ -147,7 +147,7 @@ public class MazeSolver {
         return false;
     }
 
-    public static boolean traverseMazeV3(Maze maze, char[][] grid ,int x, int y, CharStack solution, CharStack pathsAvailable) {
+    public boolean traverseMazeV3(Maze maze, char[][] grid ,int x, int y, CharStack solution, CharStack pathsAvailable) {
 
         int maxHeightIndex = maze.getMazeHeight() - 1;
         int maxWidthIndex = maze.getMazeWidth() - 1;
@@ -155,7 +155,7 @@ public class MazeSolver {
         grid[x][y] = 'x';
         solution.push( x + "," + y);
         if (x == maze.getEndCoordX() && y == maze.getEndCoordY()) {
-            System.out.println("The maze has been solved!");
+            /*System.out.println("The maze has been solved!");
             System.out.println("Path back:");
 
             // Prints out solution
@@ -176,7 +176,7 @@ public class MazeSolver {
                     System.out.print(grid[i][j] + " ");
                 }
                 System.out.println();
-            }
+            }*/
             return true;
         }
         try {
@@ -262,7 +262,7 @@ public class MazeSolver {
 
         char[][] grid = maze.getMazeGrid();
 
-         traverseMazeV3(maze, grid, maze.getStartCoordX(),maze.getStartCoordY(), mazeSolution, mazePaths);
+         //traverseMazeV3(maze, grid, maze.getStartCoordX(),maze.getStartCoordY(), mazeSolution, mazePaths);
     }
 
 }
