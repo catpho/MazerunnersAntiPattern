@@ -1,0 +1,12 @@
+#headerLabel {
+    -fx-font-size: 32px;
+}
+
+#mazeFileChooser, #solveMaze {
+    -fx-font-size: 16px;
+}
+
+#mazeGrid {
+    -fx-padding: 20 20 20 20;
+    -fx-background-color: black;
+}
