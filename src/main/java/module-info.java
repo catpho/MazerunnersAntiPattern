@@ -1,4 +1,4 @@
-module com.mazeruners.mazerunners {
+module com.mazerunners.mazerunners {
     requires javafx.controls;
     requires javafx.fxml;
 
