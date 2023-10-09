@@ -1,5 +1,7 @@
+
 #headerLabel {
     -fx-font-size: 32px;
+    -fx-font-family: "Lucida Console";
 }
 
 #mazeFileChooser, #solveMaze {
@@ -8,4 +10,9 @@
 
 #mazeGrid {
     -fx-padding: 20 20 20 20;
+    -fx-background-color:  green;
+}
+#timetaken {
+	-fx-font-size: 16px;
+	margin : 0 auto;
 }
