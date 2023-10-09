@@ -1,4 +1,6 @@
-
+.root{
+	-fx-background-color:white;
+}
 #headerLabel {
     -fx-font-size: 32px;
     -fx-font-family: "Lucida Console";
