@@ -20,5 +20,6 @@
     </VBox>
     <VBox style="-fx-padding: 0 20 20 20">
         <GridPane fx:id="mazeGrid" alignment="CENTER"></GridPane>
+        <Label fx:id="timetaken" text= "0"/>
     </VBox>
 </VBox>
