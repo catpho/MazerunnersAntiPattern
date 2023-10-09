@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+
 import java.io.IOException;
 
 public class MazeRunnersApp extends Application {
@@ -14,12 +15,13 @@ public class MazeRunnersApp extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         scene.getStylesheets().add(getClass().getResource("stylesheet.css").toExternalForm());
         stage.setTitle("MazeRunners - A Maze Solver App");
+
         stage.setScene(scene);
         stage.sizeToScene();
         stage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
         launch();
     }
 }

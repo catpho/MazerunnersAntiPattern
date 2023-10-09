@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -26,6 +27,11 @@ public class MazeRunnersController implements Initializable {
     @FXML private GridPane mazeGrid;
     @FXML private Button mazeFileChooser;
     @FXML private Button solveMaze;
+    @FXML private Label timetaken;
+    int timetook;
+    private long starttime;
+    private long endtime;
+    
     private FileChooser fileChooser;
     private FileChooser.ExtensionFilter extensionFilter;
     private File file;
@@ -111,7 +117,7 @@ public class MazeRunnersController implements Initializable {
     }
 
     @FXML public void selectMazeFile() {
-
+    	timetaken.setText("Time Executed Here");
         mazeGrid.getChildren().clear();
 
         file = fileChooser.showOpenDialog(null);
@@ -196,7 +202,7 @@ public class MazeRunnersController implements Initializable {
     }
 
     @FXML private void solveMaze() {
-
+    
         mazeGrid.getChildren().clear();
 
         if(file != null) {
@@ -206,9 +212,11 @@ public class MazeRunnersController implements Initializable {
             maze = mazeUtil.importMaze(new File("src/main/resources/mazes/maze.txt"));
             grid = maze.getMazeGrid();
         }
-
+        start();
         mazeSolver.traverseMazeV3(maze, grid, maze.getStartCoordX(), maze.getStartCoordY(), solutionStack, multiplePaths);
-
+        end();
+        long timer = getTotalTime();
+        timetaken.setText(timer + "ms");
         StackPane stackPane;
         Rectangle rect;
 
@@ -260,9 +268,32 @@ public class MazeRunnersController implements Initializable {
                         rect.setFill(Color.WHITE);
                     }
                     mazeGrid.add(stackPane, j, i);
+                  
                 }
             }
         }
 
     }
-}
+    
+
+
+    //variables for system testing
+    protected void start(){
+      this.starttime = System.currentTimeMillis();
+    }
+
+    protected void end() {
+      this.endtime   = System.currentTimeMillis();  
+    }
+
+    protected long getStartTime() {
+      return this.starttime;
+    }
+
+    protected long getEndTime() {
+      return this.endtime;
+    }
+
+    protected long getTotalTime() {
+      return this.endtime - this.starttime;
+    }}
