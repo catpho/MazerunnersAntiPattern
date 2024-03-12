@@ -155,28 +155,7 @@ public class MazeSolver {
         grid[x][y] = 'x';
         solution.push( x + "," + y);
         if (x == maze.getEndCoordX() && y == maze.getEndCoordY()) {
-            /*System.out.println("The maze has been solved!");
-            System.out.println("Path back:");
-
-            // Prints out solution
-            while (!solution.isEmpty()) {
-                System.out.println(solution.pop());
-            }
-
-            // prints out locations where multiple path options exist
-            System.out.println("Multiple Paths:");
-            while (!pathsAvailable.isEmpty()) {
-                System.out.println(pathsAvailable.pop());
-            }
-
-            // Prints out map
-            System.out.println("Map:");
-            for(int i = 0; i < maxHeightIndex + 1; i++ ) {
-                for(int j = 0; j < maxWidthIndex + 1; j++ ) {
-                    System.out.print(grid[i][j] + " ");
-                }
-                System.out.println();
-            }*/
+ 
             return true;
         }
         try {
@@ -234,7 +213,7 @@ public class MazeSolver {
             System.out.println("An index is out of bounds!");
         }
         // If no path is found, it'll jump back in time
-        //System.out.println("Current: " + x + "," + y);
+
 
         // Sets visited and unsuccessful locations with this value.
         grid[x][y] = 'v';
@@ -243,8 +222,7 @@ public class MazeSolver {
         String[] coord = String.valueOf(pathsAvailable.peek()).split(" ");
         x = Integer.valueOf(coord[0]);
         y = Integer.valueOf(coord[1]);
-        //System.out.println("X: " + x + ", Y: " + y);
-        //System.out.println("Whoops! Heading back to " + x + "," + y);
+      
 
         // Removes non-solution items from stack
         if(!solution.isEmpty()) {
@@ -254,7 +232,7 @@ public class MazeSolver {
     }
 
     public static void main(String... args) {
-        //Maze maze = MazeUtil.importMazeFromFile(exampleFile);
+
         MazeUtil mazeUtil = new MazeUtil();
         Maze maze = mazeUtil.importMaze(exampleFile);
         CharStack mazeSolution = new CharStack();
@@ -262,7 +240,7 @@ public class MazeSolver {
 
         char[][] grid = maze.getMazeGrid();
 
-         //traverseMazeV3(maze, grid, maze.getStartCoordX(),maze.getStartCoordY(), mazeSolution, mazePaths);
+        
     }
 
 }
