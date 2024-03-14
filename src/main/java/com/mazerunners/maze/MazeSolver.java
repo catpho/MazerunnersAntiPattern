@@ -8,89 +8,49 @@ public class MazeSolver {
 
   
     //current choice of traversal, avoids redund
-    public boolean traverseMazeV3(Maze maze, char[][] grid ,int x, int y, CharStack solution, CharStack pathsAvailable) {
+    public boolean traverseMazeV3(Maze maze, char[][] grid ,int x, int y, CharStack solution) {
 
         int maxHeightIndex = maze.getMazeHeight() - 1;
         int maxWidthIndex = maze.getMazeWidth() - 1;
 
         grid[x][y] = 'x';
         solution.push( x + "," + y);
+     
         if (x == maze.getEndCoordX() && y == maze.getEndCoordY()) {
  
             return true;
+            }
+        
+            try {
+                // Check if path above exists
+                if (y + 1 <= maxHeightIndex && grid[x][y + 1] == '1' && traverseMazeV3(maze, grid, x, y + 1, solution)) {
+                    return true;
+                }
+
+                // Check if path below exists
+                if (y - 1 >= 0 && grid[x][y - 1] == '1' && traverseMazeV3(maze, grid, x, y - 1, solution)) {
+                    return true;
+                }
+
+                // Check if path to the left exists
+                if (x - 1 >= 0 && grid[x - 1][y] == '1' && traverseMazeV3(maze, grid, x - 1, y, solution)) {
+                    return true;
+                }
+
+                // Check if path to the right exists
+                if (x + 1 <= maxWidthIndex && grid[x + 1][y] == '1' && traverseMazeV3(maze, grid, x + 1, y, solution)) {
+                    return true;
+                }
+
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("An index is out of bounds!");
+            }
+
+            // If no path is found, backtrack
+            grid[x][y] = 'v'; // Mark as visited
+            solution.pop();   // Remove from solution stack
+            return false;
         }
-        try {
-            // y + 1, y - 1
-            if(y + 1 <= maxHeightIndex && grid[x][y+1] == '1' && y - 1 >= 0 && grid[x][y-1] == '1') {
-                pathsAvailable.push( x + " " + y);
-            }
-
-            // y + 1, x + 1
-            if(y + 1 <= maxHeightIndex && grid[x][y+1] == '1' && x + 1 <= maxWidthIndex && grid[x+1][y] == '1') {
-                pathsAvailable.push( x + " " + y);
-            }
-
-            // y + 1, x - 1
-            if(y + 1 <= maxHeightIndex && grid[x][y+1] == '1' && x - 1 >= 0 && grid[x-1][y] == '1') {
-                pathsAvailable.push( x + " " + y);
-            }
-
-            // y - 1, x + 1
-            if(y - 1 >= 0 && grid[x][y-1] == '1' && x + 1 <= maxWidthIndex && grid[x+1][y] == '1') {
-                pathsAvailable.push( x + " " + y);
-            }
-
-            // y - 1, x - 1
-            if(y - 1 >= 0 && grid[x][y-1] == '1' && x - 1 >= 0 && grid[x-1][y] == '1') {
-                pathsAvailable.push( x + " " + y);
-            }
-
-            // x - 1, x + 1
-            if(x - 1 >= 0 && grid[x-1][y] == '1' && x + 1 <= maxWidthIndex && grid[x+1][y] == '1') {
-                pathsAvailable.push( x + " " + y);
-            }
-
-            // if path above exists
-            if(y + 1 <= maxHeightIndex && grid[x][y+1] == '1' && traverseMazeV3(maze, grid, x, y + 1, solution, pathsAvailable)){
-                return true;
-            }
-
-            // if path below exists
-            if(y - 1 >= 0 && grid[x][y-1] == '1' && traverseMazeV3(maze, grid, x, y - 1, solution, pathsAvailable)){
-                return true;
-            }
-
-            // if path to left exists
-            if(x - 1 >= 0 && grid[x-1][y] == '1' && traverseMazeV3(maze, grid, x - 1, y, solution, pathsAvailable)){
-                return true;
-            }
-
-            // if path to right exists
-            if(x + 1 <= maxWidthIndex && grid[x+1][y] == '1' && traverseMazeV3(maze, grid, x + 1, y, solution, pathsAvailable)){
-                return true;
-            }
-
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("An index is out of bounds!");
-        }
-        // If no path is found, it'll jump back in time
-
-
-        // Sets visited and unsuccessful locations with this value.
-        grid[x][y] = 'v';
-
-        // Jumping back in time
-        String[] coord = String.valueOf(pathsAvailable.peek()).split(" ");
-        x = Integer.valueOf(coord[0]);
-        y = Integer.valueOf(coord[1]);
-      
-
-        // Removes non-solution items from stack
-        if(!solution.isEmpty()) {
-            solution.pop();
-        }
-        return false;
-    }
 
     public static void main(String... args) {
 
