@@ -6,51 +6,8 @@ public class MazeSolver {
 
     private static File exampleFile = new File("maze two solutions.txt");
 
-    //DFS search, shortest path to solve maze but only one solution and leaves out dead ends
-    public static void traverseMazeV1(Maze maze, char[][] grid ,int x, int y, CharStack stack) {
-
-        int maxHeightIndex = maze.getMazeHeight() - 1;
-        int maxWidthIndex = maze.getMazeWidth() - 1;
-
-        grid[x][y] = 'x';
-        stack.push( x + "," + y);
-        if (x == maze.getEndCoordX() && y == maze.getEndCoordY()) {
-                System.out.println("The maze has been solved!");
-                System.out.println("Path back:");
-                while (!stack.isEmpty()) {
-                    System.out.println(stack.pop());
-                }
-        }
-        try {
-            if(y + 1 <= maxHeightIndex && grid[x][y+1] == '1'){
-                //System.out.println("There is a path to the right: " + x + "," + (y+1));
-                traverseMazeV1(maze, grid, x, y + 1, stack);
-
-            }
-            if(y - 1 >= 0 && grid[x][y-1] == '1'){
-                //System.out.println("There is a path to the left: " + x + "," + (y-1));
-                traverseMazeV1(maze, grid, x, y - 1, stack);
-            }
-            if(x - 1 >= 0 && grid[x-1][y] == '1'){
-                //System.out.println("There is a path above: " + (x-1) + "," + y);
-                traverseMazeV1(maze, grid, x - 1, y, stack);
-
-            }
-            if(x + 1 <= maxWidthIndex && grid[x+1][y] == '1'){
-                //System.out.println("There is a path below: " + (x+1) + "," + y);
-                traverseMazeV1(maze, grid, x + 1, y, stack);
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-        }
-        grid[x][y] = '1';
-        if(!stack.isEmpty()) {
-            stack.pop();
-        }
-    }
-
   
-
-    //current choice of traversal, avoids redundant exploration and marks dead ends 
+    //current choice of traversal, avoids redund
     public boolean traverseMazeV3(Maze maze, char[][] grid ,int x, int y, CharStack solution, CharStack pathsAvailable) {
 
         int maxHeightIndex = maze.getMazeHeight() - 1;
