@@ -213,7 +213,7 @@ public class MazeRunnersController implements Initializable {
             grid = maze.getMazeGrid();
         }
         start();
-        mazeSolver.traverseMazeV3(maze, grid, maze.getStartCoordX(), maze.getStartCoordY(), solutionStack, multiplePaths);
+        mazeSolver.traverseMazeV3(maze, grid, maze.getStartCoordX(), maze.getStartCoordY(), solutionStack);
         end();
         long timer = getTotalTime();
         timetaken.setText(timer + "ms");
