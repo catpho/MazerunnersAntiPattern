@@ -6,6 +6,7 @@ public class MazeSolver {
 
     private static File exampleFile = new File("maze two solutions.txt");
 
+    //DFS search, shortest path to solve maze but only one solution and leaves out dead ends
     public static void traverseMazeV1(Maze maze, char[][] grid ,int x, int y, CharStack stack) {
 
         int maxHeightIndex = maze.getMazeHeight() - 1;
@@ -47,6 +48,7 @@ public class MazeSolver {
         }
     }
 
+    //handles multiple paths, improvement from traverse maze 1
     public static boolean traverseMazeV2(Maze maze, char[][] grid ,int x, int y, CharStack solution, CharStack pathsAvailable) {
 
         int maxHeightIndex = maze.getMazeHeight() - 1;
@@ -147,6 +149,7 @@ public class MazeSolver {
         return false;
     }
 
+    //current choice of traversal, avoids redundant exploration and marks dead ends 
     public boolean traverseMazeV3(Maze maze, char[][] grid ,int x, int y, CharStack solution, CharStack pathsAvailable) {
 
         int maxHeightIndex = maze.getMazeHeight() - 1;
